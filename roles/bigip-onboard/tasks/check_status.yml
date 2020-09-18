@@ -1,0 +1,14 @@
+---
+
+- name: Wait for BIG-IP to be available
+  uri:
+    url: "https://{{ bigip_provider.server }}:{{ bigip_provider.server_port }}/mgmt/tm/sys/management-ip"
+    validate_certs: "{{ validate_certs }}"
+  register: system_status
+  until: 
+    - system_status.content.find("credentials required") != 1
+    - system_status.status == 401
+    - system_status.server == "Apache"
+  retries: 20
+  delay: 15
+  ignore_errors: true

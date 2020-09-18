@@ -1,0 +1,14 @@
+---
+  # Change the web GUI admin password 
+  - name: Configure the expired admin password
+    uri:
+      url: "https://{{ bigip_host }}/mgmt/shared/authz/users/admin"
+      method: PATCH
+      body: '{"oldPassword":"{{ old_bigip_password }}","password":"{{ new_bigip_password }}"}'
+      body_format: json
+      validate_certs: no
+      force_basic_auth: yes
+      user: admin
+      password: admin
+      headers:
+        Content-Type: "application/json"

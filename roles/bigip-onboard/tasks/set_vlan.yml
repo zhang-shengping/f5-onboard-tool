@@ -1,0 +1,28 @@
+---
+  # Configure BIG=IP Selfip and Vlan
+  - name: Configure BIG-IP system Selfip and Vlan
+    bigip_config:
+      provider: "{{ bigip_provider }}"
+      merge_content: |
+        sys global-settings {
+          gui-setup disabled
+        }
+        net vlan external {
+          fwd-mode l3
+          if-index 112
+          interfaces {
+            1.1 { }
+          }
+          sflow {
+            poll-interval-global no
+            sampling-rate-global no
+          }
+          tag 4094
+        }
+        net self external-self-ip {
+          address {{ bigip_ext_ip }}/24
+          allow-service all
+          traffic-group traffic-group-local-only
+          vlan external
+        }
+      save: yes

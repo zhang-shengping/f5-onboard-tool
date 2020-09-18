@@ -1,0 +1,7 @@
+---
+- name: Activate BIG-IQ system 
+  hosts: f5-bigiq
+  strategy: free
+  connection: local
+  roles:
+      - bigiq-onboard

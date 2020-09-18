@@ -1,0 +1,28 @@
+---
+  - name: Launch BIG-IQ >= 7.1
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/launch"
+      method: POST
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+      body_format: json
+    register: launch_status
+
+  - debug: 
+      msg: LAUNCH STATUS is "{{ launch_status }}"
+
+  # When the BIG-IQ is launched the /mgmt/setup/launch uri will be 404 return, use it to check the system launch
+  - name: Monitor BIG-IQ Launch
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/launch/monitor?datetime={{ launch_status.json.fileTimestamp }}"
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+    register: launch_monitor
+    until: launch_monitor.json.status in ['COMPLETE', 'ERROR']
+    retries: 20
+    delay: 60
+    when: 
+      - launch_status.json.fileTimestamp is defined
+    ignore_errors: true

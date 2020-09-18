@@ -1,0 +1,26 @@
+---
+  - name: Check if master passphrase is set
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/masterkey"
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+    register: mk
+
+  - debug:
+      msg: master key is "{{ mk }}"
+
+
+  - name: Set master passphrase
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/masterkey"
+      method: POST
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+      body:
+        passphrase: "{{ bigiq_master_passphrase }}"
+      body_format: json
+    register: result
+    when: mk.json.isMkSet is not defined or not mk.json.isMkSet|bool
+    changed_when: result.status == 200

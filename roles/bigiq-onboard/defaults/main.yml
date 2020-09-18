@@ -1,0 +1,36 @@
+---
+# defaults file for bigiq-onboard
+#
+validate_certs: no
+
+bigiq_host: 10.145.75.44
+bigiq_port: 443
+bigiq_username: admin
+bigiq_password: admin
+
+bigiq_license_key: J8620-084340-672-3614277-4111472
+addOnKeys: C354965-4417233
+
+# Passphrase Requirements:
+#
+# 16 characters or longer
+# 1 or more capital letters
+# 1 or more lowercase letters
+# 1 or more numbers
+# 1 or more special characters
+bigiq_master_passphrase: Zhangshengping@F5
+bigiq_new_admin_password: Zhangshengping@F5
+bigiq_new_root_password: Zhangshengping@F5
+
+bigiq_hostname: bigiq.example.com
+
+bigiq_dns_nameservers: 8.8.8.8
+bigiq_dns_search: localhost
+
+bigiq_ntp_servers: time.nist.gov
+bigiq_timezone: Asia/Shanghai
+
+
+bigiq_provider:
+    server: "{{ bigiq_host }}"
+    port: "{{ bigiq_port }}"

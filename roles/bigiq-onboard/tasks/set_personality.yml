@@ -1,0 +1,11 @@
+---
+  - name: Provision type on device
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/personality"
+      method: POST
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+      body:
+        systemPersonality: big_iq
+      body_format: json

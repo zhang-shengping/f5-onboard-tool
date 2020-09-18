@@ -1,0 +1,6 @@
+---
+  - name: Reset the BIG-IP
+    bigip_config:
+      reset: yes
+      save: yes
+      provider: "{{ bigip_provider }}"

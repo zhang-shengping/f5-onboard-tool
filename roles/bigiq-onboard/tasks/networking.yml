@@ -1,0 +1,25 @@
+---
+  - name: Get management address details (BIG-IQ >= 7.1)
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/address"
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+    register: bq
+
+  - debug:
+       msg: this is the bq {{ bq }}
+
+  - name: Change the system hostname and set managementIpAddress as discovery address (BIG-IQ >= 7.1)
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/setup/address"
+      method: POST
+      validate_certs: "{{ validate_certs }}"
+      headers:
+        X-F5-Auth-Token: "{{ f5_auth_token }}"
+      body:
+        hostname: "{{ bigiq_hostname }}"
+        managementIpAddress: "{{ bq.json.managementIpAddress }}"
+        managementRouteAddress: "{{ bq.json.managementRouteAddress }}"
+        discoveryAddress: "{{ bq.json.managementIpAddress[:-3] }}"
+      body_format: json

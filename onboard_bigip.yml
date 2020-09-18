@@ -1,0 +1,7 @@
+---
+- name: Activate BIG-IP system 
+  hosts: f5-bigip
+  strategy: free
+  connection: local
+  roles:
+      - bigip-onboard

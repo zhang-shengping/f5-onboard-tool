@@ -1,0 +1,12 @@
+---
+  # Put licnese on BIG-IP system  
+  - name: Activate bigip license
+    bigip_device_license:
+        license_key: "{{ bigip_license_key }}"
+        license_server: "{{ bigip_license_server }}"
+        accept_eula: yes
+        provider: "{{ bigip_provider }}"
+    register: action_result
+    retries: 6
+    delay: 20
+    until: action_result is success

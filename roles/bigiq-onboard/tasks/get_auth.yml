@@ -1,0 +1,19 @@
+---
+  - name: Get authentication token
+    uri:
+      url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/mgmt/shared/authn/login"
+      method: POST
+      validate_certs: "{{ validate_certs }}"
+      body:
+        username: "{{ bigiq_username }}"
+        password: "{{ bigiq_password }}"
+      body_format: json
+    register: authtokenonb
+
+  - name: Set the token fact if authentication succeeded
+    set_fact:
+      f5_auth_token: "{{ authtokenonb.json.token.token }}"
+    when: authtokenonb is success
+
+  - debug:
+      msg: bigip auth token is "{{ f5_auth_token }}"

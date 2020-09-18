@@ -1,0 +1,13 @@
+---
+
+- name: Wait for BIG-IQ to be available
+  uri:
+    url: "https://{{ bigiq_provider.server }}:{{ bigiq_provider.port }}/info/system"
+    validate_certs: "{{ validate_certs }}"
+  register: system_status
+  until: system_status is success and system_status.json.available|bool
+  retries: 15
+  delay: 15
+
+- debug: 
+    msg: System status is "{{ system_status }}"

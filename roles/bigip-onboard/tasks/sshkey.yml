@@ -1,0 +1,14 @@
+---
+  # Generate ssh and copy ssh key to BIG-IP
+  - name: Generate SSH keys
+    shell: ssh-keygen -b 2048 -t rsa -f {{ ssh_private_path }} -q -N ""
+    args:
+        creates: "{{ ssh_private_path }}"
+
+  - name: Copy the key to bigip device for validation
+    expect:
+        command: >
+            ssh-copy-id -o 'StrictHostKeyChecking no'
+            -i {{ ssh_private_path }}.pub root@{{ bigip_host }}
+        responses:
+            ".*Password:.*": "{{ bigip_ssh_password }}"

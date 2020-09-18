@@ -1,0 +1,46 @@
+---
+  # Wait BIG-IP system alive
+  - name: Wait BIG-IP system to be alive
+    import_tasks: check_status.yml
+    tags:
+      - check-bigip
+
+  # Change admin password
+  - name: Change BIG-IP web GUI admin password
+    import_tasks: change_admin.yml
+    when:
+      - system_status.content.find("credentials required") != 1
+      - system_status.status == 401
+      - system_status.server == "Apache"
+    tags:
+      - change-admin
+
+  # Change root password
+  - name: Change BIG-IP root password
+    import_tasks: change_root.yml
+    tags:
+      - change-root
+
+  # Licensing BIG-IP system
+  - name: Licensing BIG-IP system
+    import_tasks: licensing.yml
+    tags:
+      - licensing-bigip
+
+  # Set BIG-IP system selfip and vlan
+  - name: Set BIG-IP selfip and vlan
+    import_tasks: set_vlan.yml
+    tags:
+      - set-vlan
+
+  # Put sshkey in BIG-IP system
+  - name: Put SSH key in BIG-IP system
+    import_tasks: sshkey.yml
+    tags:
+      - set-sshkey
+
+  # Rest bigip
+  #- name: Reset BIG-IP system
+  #  import_tasks: reset_bigip.yml 
+  #  tags:
+  #    - never

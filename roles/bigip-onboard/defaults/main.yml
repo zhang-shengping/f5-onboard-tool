@@ -1,0 +1,33 @@
+---
+# defaults file for bigip-onboard
+#
+bigip_host: 10.145.71.217
+bigip_port: 443
+bigip_username: admin
+old_bigip_password: admin
+new_bigip_password: Newadmin@F5
+validate_certs: no
+
+new_bigip_root_password: Newroot@F5
+
+bigip_license_key: N6323-14989-46441-65480-9131756
+bigip_license_server: license.f5net.com
+
+bigip_ssh_password: default
+ssh_private_path: /root/sshkey
+
+bigip_ext_ip: 10.10.1.127
+
+init_provider:
+  server: "{{ bigip_host }}"
+  server_port: "{{ bigip_port }}"
+  user: "{{ bigip_username }}"
+  password: "{{ old_bigip_password }}"
+  validate_certs: "{{ validate_certs }}"
+
+bigip_provider:
+  server: "{{ bigip_host }}"
+  server_port: "{{ bigip_port }}"
+  user: "{{ bigip_username }}"
+  password: "{{ new_bigip_password }}"
+  validate_certs: "{{ validate_certs }}"

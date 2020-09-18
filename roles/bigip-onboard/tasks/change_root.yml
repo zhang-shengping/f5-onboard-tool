@@ -1,0 +1,9 @@
+---
+  # Change the root password
+  - name: Configure the root password
+    bigip_user:
+      full_name: root
+      username_credential: root
+      password_credential: "{{ new_bigip_root_password }}"
+      update_password: always
+      provider: "{{ bigip_provider }}"

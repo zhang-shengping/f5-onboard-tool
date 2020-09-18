@@ -1,0 +1,46 @@
+---
+  # Wait bigiq to be alive
+  - name: Wait BIG-IQ system to be alive
+    import_tasks: check_status.yml
+
+  # GET TOKE
+  - name: Get authentication token
+    import_tasks: get_auth.yml
+    tags:
+      - auth
+
+  # LICENS
+  - name: Licensing a BIG-IQ system
+    import_tasks: licensing.yml
+    tags:
+      - licensing
+
+  # SYSTEM PERSONALITY
+  - name: Set BIG-IQ system personality
+    import_tasks: set_personality.yml
+    tags:
+      - personality
+
+  # MASTER KEY
+  - name: Set BIG-IQ system master key
+    import_tasks: set_masterkey.yml
+    tags:
+      - masterkey
+
+  # NETWORKING
+  - name: Configure Management IP and Hostname
+    import_tasks: networking.yml
+    tags:
+      - networking
+
+  # LAUNCH
+  - name: Launch BIG-IQ system
+    import_tasks: launch.yml
+    tags:
+      - launch-bigiq
+
+  # Wait bigiq to be alive
+  - name: Wait BIG-IQ system to be alive
+    import_tasks: check_status.yml
+    tags: 
+      - check-bigiq
