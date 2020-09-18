@@ -2,8 +2,8 @@
 Simple tool used to onboard F5 BIG-IP and BIG-IQ
 
 **Configure:**
-* BIG-IP configuration file: roles/bigip-onboard/main.yml
-* BIG-IQ configuration file: roles/bigiq-onboard/main.yml
+* BIG-IP configuration file: `roles/bigip-onboard/main.yml`
+* BIG-IQ configuration file: `roles/bigiq-onboard/main.yml`
 
 **Commands:**
 * Run this command to onboard BIG-IP: `ansible-playbook -i inventories/ onboard_bigip.yaml`
